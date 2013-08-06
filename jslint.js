@@ -2883,7 +2883,8 @@ klass:              do {
                 warn('identifier_function', token);
             }
             if (left.id === '.' || left.id === '[') {
-                if (!left.first || left.first.string === 'arguments') {
+                if (!left.first || ((left.first.string === 'arguments') &&
+                    (left.second.string === '(number)'))) {
                     warn('bad_assignment', that);
                 }
             } else if (left.identifier) {
