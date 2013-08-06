@@ -2507,7 +2507,6 @@ klass:              do {
             advance();
             semicolon();
             strict_mode = true;
-            option.newcap = false;
             option.undef = false;
             return true;
         } else {
