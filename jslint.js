@@ -2841,10 +2841,11 @@ klass:              do {
     function relation(s, eqeq) {
         return infix(s, 100, function (left, that) {
             check_relation(left);
-            if (eqeq && !option.eqeq) {
+            var right = expression(100);
+            if (eqeq && !option.eqeq &&
+                (left.string !== 'null') && (right.string !== 'null')) {
                 warn('expected_a_b', that, eqeq, that.id);
             }
-            var right = expression(100);
             if (are_similar(left, right) ||
                     ((left.id === '(string)' || left.id === '(number)') &&
                     (right.id === '(string)' || right.id === '(number)'))) {
