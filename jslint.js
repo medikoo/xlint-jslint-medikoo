@@ -1327,7 +1327,7 @@ var JSLINT = (function () {
             )] || syntax['(error)']);
             if (type === '(identifier)') {
                 the_token.identifier = true;
-                if (value === '__iterator__' || value === '__proto__') {
+                if (value === '__iterator__') {
                     stop_at('reserved_a', line, from, value);
                 } else if (!option.nomen &&
                         (value.charAt(0) === '_' ||
