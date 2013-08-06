@@ -2131,7 +2131,9 @@ klass:              do {
                 } else {
                     indent.wrap = true;
                     if (indent.mode === 'statement' || indent.mode === 'var') {
-                        expected_at(indent.at + option.indent);
+                        if (indent.mode !== 'var') {
+                            expected_at(indent.at + option.indent);
+                        }
                     } else if (next_token.from < indent.at + (indent.mode ===
                             'expression' ? 0 : option.indent)) {
                         expected_at(indent.at + option.indent);
@@ -2385,7 +2387,7 @@ klass:              do {
                 open: true
             };
         } else {
-            open = mode === 'var' || next_token.line !== token.line;
+            open = next_token.line !== token.line;
             indent = {
                 at: (open || mode === 'control'
                     ? indent.at + option.indent
@@ -2418,7 +2420,7 @@ klass:              do {
     function one_space(left, right) {
         left = left || token;
         right = right || next_token;
-        if (right.id !== '(end)' && !option.white &&
+        if (right.id !== '(end)' && !option.white && (token.string !== ';') &&
                 (token.line !== right.line ||
                 token.thru + 1 !== right.from)) {
             warn('expected_space_a_b', right, artifact(token), artifact(right));
@@ -2448,7 +2450,10 @@ klass:              do {
         right = right || next_token;
         if (right.id !== '(end)' && (left.line !== right.line ||
                 (!option.white && left.thru !== right.from))) {
-            warn('unexpected_space_a_b', right, artifact(left), artifact(right));
+            if ((right.string !== ',') ||
+                (right.line === left.line)) {
+                warn('unexpected_space_a_b', right, artifact(left), artifact(right));
+            }
         }
     }
 
