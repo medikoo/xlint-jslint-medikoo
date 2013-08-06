@@ -2775,7 +2775,7 @@ klass:              do {
     }
 
     function expected_relation(node, message) {
-        if (node.assign) {
+        if (node.assign && !node.paren) {
             warn(message || bundle.conditional_assignment, node);
         }
         return node;
