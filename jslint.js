@@ -1189,8 +1189,31 @@ var JSLINT = (function () {
         }, a, b, c, d);
     }
 
+    var medExceptions = ['else', 'if', 'while'];
+    medExceptions.contains = function (token) {
+        return this.indexOf(token) !== -1;
+    };
     function expected_at(at) {
+			  var line, line2, index;
         if (!option.white && next_token.from !== at) {
+					  if (next_token.string === 'else') {
+					      line = lines[next_token.line - 1];
+							  if (line.trim().indexOf('else') === 0) {
+                    line2 = lines[next_token.line - 2];
+                    if (line2.match(/^\s*(?:if|else)/) &&
+                            (line.indexOf('else') === line2.search('if|else'))) {
+                        return;
+                    }
+								}
+            } else {
+                line = lines[next_token.line - 1].trim();
+                if ((index = line.lastIndexOf('//')) !== -1) line = line.slice(0, index).trim();
+                if (medExceptions.some(function (exc) { return line.indexOf(exc) === 0; }) &&
+                        (line[line.length - 1] === ';') &&
+                        (line.indexOf(';') === (line.length - 1))) {
+                    return;
+                }
+            }
             warn('expected_a_at_b_c', next_token, '', at,
                 next_token.from);
         }
