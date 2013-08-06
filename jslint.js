@@ -1238,7 +1238,7 @@ var JSLINT = (function () {
 // Private lex methods
 
         function next_line() {
-            var at;
+            var at, at2;
             if (line >= lines.length) {
                 return false;
             }
@@ -1249,6 +1249,55 @@ var JSLINT = (function () {
             at = source_row.search(/ \t/);
             if (at >= 0) {
                 warn_at('mixed', line, at + 1);
+            }
+            if (!option.white) {
+                at = source_row.indexOf("\r");
+
+                // Windows EOL
+                if (at >= 0) {
+                    warn_at('unexpected_a', line, at + 1,
+                        '(carriage return/windows eol)');
+                }
+
+                // No EOL at EOF
+                if (line >= lines.length) {
+                    if (source_row.search(/[^\s]/) >= 0) {
+                        warn_at('unexpected_a', line, source_row.length,
+                            '(end of file)');
+                    }
+                }
+
+                // TAB after text content (we only allow TABS at begin of line)
+                at = source_row.search(/[^\t]\t/);
+                at2 = source_row.indexOf('//');
+                if ((at >= 0) && ((at2 < 0) || at2 > at)) {
+                    warn_at('unexpected_a', line, at + 1, '(tab)');
+                }
+
+                // Two EOL's in a row
+                if (!source_row && (line > 1) && !lines[line - 2]) {
+                    warn_at('unexpected_a', line, 1, '(end of line)');
+                }
+
+                // Indent should be with TABS or spaces (according to setting)
+                at = source_row.replace(/  (,|\/\/)/g, '$1')
+                    .search(option.tabs ? /^ / : /^\t/);
+                if (at === 0) {
+                    warn_at('unexpected_a', line, 1,
+                        option.tabs ? '(space)' : '(tab)');
+                }
+
+                // Comma should be preceded with two spaces
+                at = source_row.indexOf('\t,');
+                if (at >= 0) {
+                    warn_at('unexpected_a', line, at + 1, '(tab)');
+                }
+
+                // Spaces should not appear after TABS
+                at = source_row.search('\t +([^, \n]|$)');
+                if (at >= 0) {
+                    warn_at('unexpected_a', line, source_row.indexOf(' ', at) + 1, '(space)');
+                }
             }
             source_row = source_row.replace(/\t/g, tab);
             at = source_row.search(cx);
