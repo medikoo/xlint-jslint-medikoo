@@ -2437,11 +2437,15 @@ klass:              do {
     }
 
     function no_space(left, right) {
+        var ws;
         left = left || token;
         right = right || next_token;
         if ((!option.white || xmode === 'styleproperty' || xmode === 'style') &&
                 left.thru !== right.from && left.line === right.line) {
-            warn('unexpected_space_a_b', right, artifact(left), artifact(right));
+            ws = lines[left.line - 1].replace(/\t/g, '  ').substring(left.thru - 1, right.from - 1);
+            if ((ws.indexOf('/*') !== 0) || (ws.lastIndexOf('*/') !== (ws.length - 2))) {
+                warn('unexpected_space_a_b', right, artifact(left), artifact(right));
+            }
         }
     }
 
