@@ -975,7 +975,9 @@ var JSLINT = (function () {
             html: hx,
             style: sx,
             styleproperty: ssx
-        };
+        },
+
+        silent_warnings = [];
 
 
     function F() {}     // Used by Object.create
@@ -1155,7 +1157,9 @@ var JSLINT = (function () {
             d: d
         };
         warning.reason = warning.raw.supplant(warning);
-        JSLINT.errors.push(warning);
+        if (!silent_warnings[line]) {
+            JSLINT.errors.push(warning);
+        }
         if (option.passfail) {
             quit(bundle.stopping, line, character);
         }
@@ -1205,7 +1209,8 @@ var JSLINT = (function () {
 // lexical analysis and token construction
 
     lex = (function lex() {
-        var character, c, from, length, line, pos, source_row;
+        var character, c, from, length, line, pos, source_row, skip_re;
+        skip_re = /\/\/jslint: skip$/;
 
 // Private lex methods
 
@@ -1217,6 +1222,7 @@ var JSLINT = (function () {
             character = 1;
             source_row = lines[line];
             line += 1;
+            silent_warnings[line] = skip_re.test(source_row);
             at = source_row.search(/ \t/);
             if (at >= 0) {
                 warn_at('mixed', line, at + 1);
