@@ -691,7 +691,8 @@ var JSLINT = (function () {
             'r': '\r',
             '"': '"',
             '/': '/',
-            '\\': '\\'
+            '\\': '\\',
+            '0': '\0'
         },
 
         devel = array_to_object([
