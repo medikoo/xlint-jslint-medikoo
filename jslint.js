@@ -1778,8 +1778,6 @@ klass:              do {
             init: function (source) {
                 if (typeof source === 'string') {
                     lines = source
-                        .replace(crlfx, '\n')
-                        .replace(crx, '\n')
                         .split('\n');
                 } else {
                     lines = source;
