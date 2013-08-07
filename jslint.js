@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-12-04
+// 2012-12-14
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -301,8 +301,8 @@
     unexpected_typeof_a, 'unicode-bidi', unnecessary_initialize,
     unnecessary_use, unparam, unreachable_a_b, unrecognized_style_attribute_a,
     unrecognized_tag_a, unsafe, unused, url, urls, use_array, use_braces,
-    use_charAt, use_object, use_or, use_param, used_before_a, var, var_a_not,
-    vars, 'vertical-align', video, visibility, was, weird_assignment,
+    use_charAt, use_object, use_or, use_param, use_spaces, used_before_a, var,
+    var_a_not, vars, 'vertical-align', video, visibility, was, weird_assignment,
     weird_condition, weird_new, weird_program, weird_relation, weird_ternary,
     white, 'white-space', width, windows, 'word-spacing', 'word-wrap', wrap,
     wrap_immediate, wrap_regexp, write_is_wrong, writeable, 'z-index'
@@ -605,6 +605,7 @@ var JSLINT = (function () {
             use_object: "Use the object literal notation {}.",
             use_or: "Use the || operator.",
             use_param: "Use a named parameter.",
+            use_spaces: "Use spaces, not tabs.",
             used_before_a: "'{a}' was used before it was defined.",
             var_a_not: "Variable {a} was not declared correctly.",
             weird_assignment: "Weird assignment.",
@@ -6586,7 +6587,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2012-12-04';
+    itself.edition = '2012-12-14';
 
     return itself;
 }());
