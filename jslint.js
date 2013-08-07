@@ -3398,7 +3398,7 @@ klass:              do {
     bitwise('>>>', 120);
 
     infix('in', 120, function (left, that) {
-        warn('infix_in', that);
+        // warn('infix_in', that);
         that.left = left;
         that.right = expression(130);
         return that;
