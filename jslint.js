@@ -2234,7 +2234,7 @@ klass:              do {
                 that.warn('weird_relation');
             } else if (left.id === 'typeof') {
                 if (right.id !== '(string)') {
-                    right.warn("expected_string_a", artifact(right));
+                    // right.warn("expected_string_a", artifact(right));
                 } else if (right.string === 'null') {
                     left.warn("unexpected_typeof_a", right.string);
                 }
