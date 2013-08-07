@@ -2233,8 +2233,7 @@ klass:              do {
             } else if (left.id === 'typeof') {
                 if (right.id !== '(string)') {
                     right.warn("expected_string_a", artifact(right));
-                } else if (right.string === 'undefined' ||
-                        right.string === 'null') {
+                } else if (right.string === 'null') {
                     left.warn("unexpected_typeof_a", right.string);
                 }
             } else if (right.id === 'typeof') {
