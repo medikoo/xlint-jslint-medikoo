@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-04-06
+// 2013-04-09
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -1066,7 +1066,7 @@ var JSLINT = (function () {
                 while (pos >= source_row.length) {
                     pos = 0;
                     if (!next_line()) {
-                        stop_at('unclosed', line, from);
+                        stop_at('unclosed', line - 1, from);
                     }
                 }
                 c = source_row.charAt(pos);
@@ -4640,7 +4640,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-04-06';
+    itself.edition = '2013-04-09';
 
     return itself;
 }());
