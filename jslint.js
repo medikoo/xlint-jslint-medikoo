@@ -4035,6 +4035,12 @@ klass:              do {
                 if (typeof i !== 'string') {
                     stop('missing_property');
                 }
+
+                // Unexpected whitespace between property name and colon
+                if (!option.white && (next_token.string === ':') && (token.thru != next_token.from)) {
+                    warn('unexpected_space_a_b', next_token, artifact(token), artifact(next_token));
+                }
+
                 advance(':');
                 spaces();
                 name.first = expression(10);
