@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-03-07
+// 2012-03-15
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -4010,7 +4010,7 @@ klass:              do {
                     warn('function_loop', get);
                 }
                 p = get.first;
-                if (p) {
+                if (p && p.length) {
                     warn('parameter_a_get_b', p[0], p[0].string, i);
                 }
                 comma();
@@ -6522,7 +6522,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-03-07';
+    itself.edition = '2012-03-15';
 
     return itself;
 }());
