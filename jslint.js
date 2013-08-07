@@ -1141,7 +1141,7 @@ var JSLINT = (function () {
 
     function warn(message, offender, a, b, c, d) {
         var character, line, warning;
-        offender = offender || next_token;  // `~
+        offender = offender || next_token;  // ~~
         line = offender.line || 0;
         character = offender.from || 0;
         warning = {
@@ -6243,7 +6243,7 @@ klass:              do {
             indent = null;
             advance('(end)');
         } catch (e) {
-            if (e) {        // `~
+            if (e) {        // ~~
                 JSLINT.errors.push({
                     reason    : e.message,
                     line      : e.line || next_token.line,
