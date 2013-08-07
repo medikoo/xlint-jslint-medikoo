@@ -3166,8 +3166,8 @@ klass:              do {
 // in the global scope, then we have an undefined variable error.
 
                 } else {
-                    if (!option.undef) {
-                        warn('used_before_a', token);
+                    if (!option.undef && !lines[token.line - 1].slice(0, token.from - 2).match(/typeof\s+$/)) {
+                      warn('used_before_a', token);
                     }
                     scope[name] = variable = {
                         string: name,
