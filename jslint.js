@@ -3272,7 +3272,9 @@ klass:              do {
             var master = scope[name];
             if (!master.used && master.kind !== 'exception' &&
                     (master.kind !== 'parameter' || !option.unparam)) {
-                master.warn('unused_a');
+                if (funct.parameter.indexOf(name) === -1) {
+                    master.warn('unused_a');
+                }
             } else if (!master.init) {
                 master.warn('uninitialized_a');
             }
