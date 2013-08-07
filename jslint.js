@@ -3048,7 +3048,7 @@ klass:              do {
                 semicolon();
             } else {
                 if (next_token.string === 'use strict') {
-                    if ((!node_js && xmode !== 'script') || funct !== global_funct || array.length > 0) {
+                    if (!option.module && ((!node_js && xmode !== 'script') || funct !== global_funct || array.length > 0)) {
                         warn('function_strict');
                     }
                     use_strict();
@@ -6072,6 +6072,10 @@ klass:              do {
                 } else if (typeof predef === 'object') {
                     add_to_predefined(predef);
                 }
+            }
+            if (option.module) {
+                predefined['exports'] = predefined['module'] =
+                    predefined['require'] = true;
             }
             do_safe();
         } else {
