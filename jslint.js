@@ -3526,7 +3526,8 @@ klass:              do {
         case ':':
             break;
         case '.':
-            if (peek().string !== 'bind' || peek(1).id !== '(') {
+            if ((peek().string !== 'apply' && peek().string !== 'bind' && peek().string !== 'call') ||
+                peek(1).id !== '(') {
                 next_token.warn('unexpected_a');
             }
             break;
