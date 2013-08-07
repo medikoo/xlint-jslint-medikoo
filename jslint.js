@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-05-30
+// 2013-05-31
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2018,25 +2018,6 @@ klass:              do {
         return postscript(x);
     }
 
-
-    function stmt(s, f) {
-        var x = symbol(s);
-        x.identifier = x.reserved = true;
-        x.fud = f;
-        return x;
-    }
-
-    function labeled_stmt(s, f) {
-        var x = stmt(s, f);
-        x.labeled = true;
-    }
-
-    function disrupt_stmt(s, f) {
-        var x = stmt(s, f);
-        x.disrupt = true;
-    }
-
-
     function reserve_name(x) {
         var c = x.id.charAt(0);
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
@@ -2045,6 +2026,21 @@ klass:              do {
         return x;
     }
 
+    function stmt(s, f) {
+        var x = symbol(s);
+        x.fud = f;
+        return reserve_name(x);
+    }
+
+    function disrupt_stmt(s, f) {
+        var x = stmt(s, f);
+        x.disrupt = true;
+    }
+
+    function labeled_stmt(s, f) {
+        var x = stmt(s, f);
+        x.labeled = true;
+    }
 
     function prefix(s, f) {
         var x = symbol(s, 150);
@@ -4388,7 +4384,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-05-30';
+    itself.edition = '2013-05-31';
 
     return itself;
 }());
