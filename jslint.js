@@ -3778,6 +3778,8 @@ klass:              do {
             default:
                 warn('bad_wrap', that);
             }
+        } else if (!value.arity) {
+            warn('unexpected_a', that);
         }
         return value;
     });
