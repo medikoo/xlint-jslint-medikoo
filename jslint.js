@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-02-16
+// 2012-02-17
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2856,11 +2856,13 @@ klass:              do {
                 } else {
                     stop('read_only');
                 }
-                funct['(params)'].forEach(function (value) {
-                    if (value.string === left.string) {
-                        value.assign = true;
-                    }
-                });
+                if (funct['(params)']) {
+                    funct['(params)'].forEach(function (value) {
+                        if (value.string === left.string) {
+                            value.assign = true;
+                        }
+                    });
+                }
             } else if (option.safe) {
                 l = left;
                 do {
@@ -6520,7 +6522,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-02-16';
+    itself.edition = '2012-02-17';
 
     return itself;
 }());
