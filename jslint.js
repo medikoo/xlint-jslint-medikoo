@@ -3660,8 +3660,8 @@ klass:              do {
                         left.string !== 'Boolean' && left.string !== 'Date') {
                     if (left.string === 'Math' || left.string === 'JSON') {
                         warn('not_a_function', left);
-                    } else if (left.string === 'Object') {
-                        warn('use_object', token);
+                    } else if ((left.string === 'Object') || (left.string === 'RegExp')) {
+                        // warn('use_object', token);
                     } else if (left.string === 'Array' || !option.newcap) {
                         warn('missing_a', left, 'new');
                     }
