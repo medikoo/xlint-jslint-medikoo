@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-07-24
+// 2012-07-27
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2636,7 +2636,7 @@ klass:              do {
         x.thru = 1;
         x.line = 0;
         x.edge = 'edge';
-        s.string = s;
+        x.string = s;
         return postscript(x);
     }
 
@@ -6559,7 +6559,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2012-07-24';
+    itself.edition = '2012-07-27';
 
     return itself;
 }());
