@@ -2588,7 +2588,7 @@ klass:              do {
 
         var left;
         if (next_token.id === '(end)') {
-            stop('unexpected_a', token, next_token.id);
+            if (!initial) stop('unexpected_a', token, next_token.id);
             return;
         }
         advance();
