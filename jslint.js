@@ -3265,7 +3265,7 @@ klass:              do {
                 Array(option.indent).join(' ') + ' ')
                 .slice(token.from, token.from + 1);
             if (chr && !/\s/.test(chr) && (chr !== '}')) {
-                warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
+                next_token.warn('missing_space_a_b', artifact(token), artifact(next_token));
             }
         }
         step_in();
@@ -3328,7 +3328,7 @@ klass:              do {
 
                 // Unexpected whitespace between property name and colon
                 if (!option.white && (next_token.string === ':') && (token.thru != next_token.from)) {
-                    warn('unexpected_space_a_b', next_token, artifact(token), artifact(next_token));
+                    next_token.warn('unexpected_space_a_b', artifact(token), artifact(next_token));
                 }
 
                 advance(':');
@@ -3362,7 +3362,7 @@ klass:              do {
                 Array(option.indent).join(' ') + ' ')
                 .slice(next_token.from - 2, next_token.from - 1);
             if (chr && !/\s/.test(chr) && (chr !== '{')) {
-                warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
+                next_token.warn('missing_space_a_b', artifact(token), artifact(next_token));
             }
         }
         step_out('}', that);
