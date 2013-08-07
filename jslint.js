@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-02-13
+// 2012-02-14
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -4211,6 +4211,11 @@ klass:              do {
         case '}':
         case ':':
             break;
+        case '.':
+            if (peek().string !== 'bind' || peek(1).id !== '(') {
+                warn('unexpected_a');
+            }
+            break;
         default:
             stop('unexpected_a');
         }
@@ -6515,7 +6520,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-02-13';
+    itself.edition = '2012-02-14';
 
     return itself;
 }());
