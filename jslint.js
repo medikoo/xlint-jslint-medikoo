@@ -3565,7 +3565,8 @@ klass:              do {
         no_space_only();
         this.first = expected_condition(expression(150));
         this.arity = 'prefix';
-        if (bang[this.first.id] === true || this.first.assign) {
+        if ((bang[this.first.id] === true || this.first.assign) &&
+            !this.first.paren) {
             warn('confusing_a', this);
         }
         return this;
