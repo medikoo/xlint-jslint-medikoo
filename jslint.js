@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-03-19
+// 2013-03-26
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -192,7 +192,8 @@
 
 //     bitwise    true, if bitwise operators should be allowed
 //     browser    true, if the standard browser globals should be predefined
-//     'continue' true, if the continuation statement should be tolerated
+//     closure    true, if Google Closure idioms should be tolerated
+//     continue   true, if the continuation statement should be tolerated
 //     debug      true, if debugger statements should be allowed
 //     devel      true, if logging should be allowed (console, alert, etc.)
 //     eqeq       true, if == should be allowed
@@ -258,7 +259,7 @@
     not_a_label, not_a_scope, not_greater, nud, number, octal_a, open, outer,
     parameter_a_get_b, parameter_arguments_a, parameter_set_a, params, paren,
     passfail, plusplus, postscript, predef, properties, properties_report,
-    property, prototype, push, quote, r, radix, range, raw, read_only, reason,
+    property, prototype, push, quote, r, radix, raw, read_only, reason,
     regexp, replace, report, reserved, reserved_a, rhino, right, scanned_a_b,
     search, second, shift, slash_equal, slice, sloppy, sort, split,
     statement_block, stopping, strange_loop, strict, string, stupid, sub,
@@ -303,7 +304,8 @@ var JSLINT = (function () {
     var allowed_option = {
             bitwise   : true,
             browser   : true,
-            'continue': true,
+            closure   : true,
+            continue  : true,
             couch     : true,
             debug     : true,
             devel     : true,
@@ -511,6 +513,7 @@ var JSLINT = (function () {
                 "disambiguate the slash operator.",
             write_is_wrong: "document.write can be a form of eval."
         },
+        comments,
         comments_off,
         couch = array_to_object([
             'emit'
@@ -966,7 +969,7 @@ var JSLINT = (function () {
 
         function it(type, value) {
             var id, the_token;
-            if (type === '(string)' || type === '(range)') {
+            if (type === '(string)') {
                 if (jx.test(value)) {
                     // warn_at('url', line, from);
                 }
@@ -995,6 +998,10 @@ var JSLINT = (function () {
             the_token.line = line;
             the_token.from = from;
             the_token.thru = character;
+            if (comments.length) {
+                the_token.comments = comments;
+                comments = [];
+            }
             id = the_token.id;
             prereg = id && (
                 ('(,=:[!&|?{};~+-*%^<>'.indexOf(id.charAt(id.length - 1)) >= 0) ||
@@ -1145,12 +1152,19 @@ var JSLINT = (function () {
             return it('(number)', snippet);
         }
 
-        function comment(snippet) {
+        function comment(snippet, type) {
             if (comments_off) {
                 warn_at('unexpected_comment', line, character);
             } else if (!option.todo && tox.test(snippet)) {
                 warn_at('todo_comment', line, character);
             }
+            comments.push({
+                id: type,
+                from: from,
+                thru: character,
+                line: line,
+                string: snippet
+            });
         }
 
         function regexp() {
@@ -1401,33 +1415,6 @@ klass:              do {
                 from = 1;
             },
 
-            range: function (begin, end) {
-                var c, value = '';
-                from = character;
-                if (source_row.charAt(0) !== begin) {
-                    stop_at('expected_a_b', line, character, begin,
-                        source_row.charAt(0));
-                }
-                for (;;) {
-                    source_row = source_row.slice(1);
-                    character += 1;
-                    c = source_row.charAt(0);
-                    switch (c) {
-                    case '':
-                        stop_at('missing_a', line, character, c);
-                        break;
-                    case end:
-                        source_row = source_row.slice(1);
-                        character += 1;
-                        return it('(range)', value);
-                    case '\\':
-                        warn_at('unexpected_a', line, character, c);
-                        break;
-                    }
-                    value += c;
-                }
-            },
-
 // token -- this is called by advance to get the next token.
 
             token: function () {
@@ -1465,7 +1452,7 @@ klass:              do {
 //      // comment
 
                         case '//':
-                            comment(source_row);
+                            comment(source_row, '//');
                             source_row = '';
                             break;
 
@@ -1477,12 +1464,14 @@ klass:              do {
                                 if (i >= 0) {
                                     break;
                                 }
+                                character = source_row.length;
                                 comment(source_row);
+                                from = 0;
                                 if (!next_line()) {
                                     stop_at('unclosed_comment', line, character);
                                 }
                             }
-                            comment(source_row.slice(0, i));
+                            comment(source_row.slice(0, i), '/*');
                             character += i + 2;
                             if (source_row.charAt(i) === '/') {
                                 stop_at('nested_comment', line, character);
@@ -2475,7 +2464,7 @@ klass:              do {
 
     function statement() {
 
-        var label, old_scope = scope, the_statement, parenRe = /^\s*\(.+\);$/;
+        var label, old_scope = scope, preamble, the_statement, parenRe = /^\s*\(.+\);$/;
 
 // We don't like the empty statement.
 
@@ -2504,6 +2493,7 @@ klass:              do {
 
 // Parse the statement.
 
+        preamble = next_token;
         if (token.id !== 'else') {
             edge();
         }
@@ -2540,7 +2530,7 @@ klass:              do {
                     if ((the_statement.id !== '&&' &&
                         the_statement.id !== '||') ||
                         !parenRe.test(lines[the_statement.line - 1])) {
-                        warn('assignment_function_expression', the_statement);
+                        warn('assignment_function_expression', preamble);
 										}
                 }
                 semicolon();
@@ -2784,7 +2774,6 @@ klass:              do {
     type('(object)', 'object');
     type('(string)', 'string', return_this);
     type('(boolean)', 'boolean', return_this);
-    type('(range)', 'range');
     type('(regexp)', 'regexp', return_this);
 
     ultimate('(begin)');
@@ -3267,7 +3256,9 @@ klass:              do {
                 warn('bad_wrap', that);
             }
         } else if (!value.arity) {
-            warn('unexpected_a', that);
+            if (!option.closure || that.comments) {
+                warn('unexpected_a', that);
+            }
         }
         return value;
     });
@@ -4294,6 +4285,7 @@ klass:              do {
         };
         functions = [funct];
 
+        comments = [];
         comments_off = false;
         in_block = false;
         indent = null;
@@ -4318,6 +4310,7 @@ klass:              do {
                 switch (next_token.id) {
                 case '{':
                 case '[':
+                    comments_off = true;
                     json_mode = true;
                     json_value();
                     break;
@@ -4629,7 +4622,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-03-19';
+    itself.edition = '2013-03-26';
 
     return itself;
 }());
