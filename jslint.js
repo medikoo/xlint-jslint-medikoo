@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-05-29
+// 2013-05-30
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -1873,6 +1873,12 @@ klass:              do {
         }
         if (a.id === '(number)' && b.id === '(number)') {
             return a.number === b.number;
+        }
+        if (a.arity === 'function' || b.arity === 'function') {
+            return false;
+        }
+        if (a.identifier && b.identifier) {
+            return a.string === b.string;
         }
         if (a.arity === b.arity && a.string === b.string) {
             switch (a.arity) {
@@ -3826,7 +3832,7 @@ klass:              do {
                                 ok = filter.first.id === '.' && ((
                                     are_similar(filter.first.first, this.second) &&
                                     filter.first.second.string === 'hasOwnProperty' &&
-                                    are_similar(filter.second[0], this.first.string)
+                                    are_similar(filter.second[0], this.first)
                                 ) || (
                                     filter.first.first.id === '.' &&
                                     filter.first.first.first.first.string === 'Object' &&
@@ -4382,7 +4388,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-05-29';
+    itself.edition = '2013-05-30';
 
     return itself;
 }());
