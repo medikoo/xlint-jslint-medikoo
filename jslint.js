@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-01-29
+// 2012-02-03
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2377,17 +2377,17 @@ klass:              do {
                 open: true,
                 was: indent
             };
-        } else if (mode === 'statement') {
-            indent = {
-                at: indent.at,
-                open: true,
-                was: indent
-            };
         } else if (!indent) {
             indent = {
                 at: 1,
                 mode: 'statement',
                 open: true
+            };
+        } else if (mode === 'statement') {
+            indent = {
+                at: indent.at,
+                open: true,
+                was: indent
             };
         } else {
             open = next_token.line !== token.line;
@@ -4615,7 +4615,7 @@ klass:              do {
     });
 
     disrupt_stmt('return', function () {
-        if (funct === global_funct) {
+        if (funct === global_funct && xmode !== 'scriptstring') {
             warn('unexpected_a', this);
         }
         this.arity = 'statement';
@@ -6497,7 +6497,7 @@ klass:              do {
     };
     itself.jslint = itself;
 
-    itself.edition = '2012-01-29';
+    itself.edition = '2012-02-03';
 
     return itself;
 }());
