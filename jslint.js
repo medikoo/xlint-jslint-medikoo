@@ -6228,7 +6228,7 @@ klass:              do {
                             aint(tree[0].second[1], 'id', 'function'))) {
                         stop('adsafe_lib');
                     }
-                    if (tree.disrupt) {
+                    if (tree.disrupt && !option.module) {
                         warn('weird_program', prev_token);
                     }
                 }
