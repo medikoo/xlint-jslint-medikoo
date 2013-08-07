@@ -2509,9 +2509,11 @@ klass:              do {
             strict_mode = old_strict_mode;
             step_out('}', curly);
         } else if (in_block) {
-            curly.stop('expected_a_b', '{', artifact());
+            // curly.stop('expected_a_b', '{', artifact());
+            array = [statement()];
+            array.disrupt = array[0].disrupt;
         } else {
-            // curly.warn('expected_a_b', '{', artifact());
+            curly.warn('expected_a_b', '{', artifact());
             array = [statement()];
             array.disrupt = array[0].disrupt;
         }
