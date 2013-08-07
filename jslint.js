@@ -3808,7 +3808,7 @@ klass:              do {
         switch (e.id) {
         case '(number)':
             if (e.id === '(number)' && left.id === 'arguments') {
-                warn('use_param', left);
+                // warn('use_param', left);
             }
             break;
         case '(string)':
