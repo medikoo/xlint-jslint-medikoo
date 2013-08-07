@@ -594,6 +594,7 @@ var JSLINT = (function () {
 
         strict_mode,
         syntax = Object.create(null),
+        tab,
         token,
         tokens,
         var_mode,
@@ -4110,6 +4111,10 @@ klass:              do {
         }
         option.indent = +option.indent || 4;
         option.maxerr = +option.maxerr || 50;
+        tab = '';
+        for (i = 0; i < option.indent; i += 1) {
+            tab += ' ';
+        }
         global_scope = scope = Object.create(null);
         global_funct = funct = {
             scope: scope,
