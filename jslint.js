@@ -2078,7 +2078,9 @@ klass:              do {
             default:
                 if (that.first.arity === 'prefix' ||
                         that.first.arity === 'function') {
-                    that.warn('unexpected_a');
+                    if (that.first.arity !== 'prefix' || that.string !== '!') {
+                        that.warn('unexpected_a');
+                    }
                 }
             }
             return that;
