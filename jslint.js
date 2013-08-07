@@ -2297,6 +2297,7 @@ klass:              do {
         return x;
     }
 
+
     function bitwise(s, p) {
         var x = infix(s, p, 'number');
         x.bitwise = true;
@@ -2466,9 +2467,7 @@ klass:              do {
 
     function block(kind) {
 
-// array block is array sequence of statements wrapped in braces.
-// ordinary is false for function bodies and try blocks.
-// ordinary is true for if statements, while, etc.
+// A block is a sequence of statements wrapped in braces.
 
         var array, chr,
             curly = next_token,
@@ -2555,7 +2554,6 @@ klass:              do {
                         string: name,
                         writeable: writeable
                     };
-                    global_funct[name] = 'var';
 
 // But if the variable is not in scope, and is not predefined, and if we are not
 // in the global scope, then we have an undefined variable error.
