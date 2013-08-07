@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-12-14
+// 2012-12-17
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -1227,11 +1227,13 @@ var JSLINT = (function () {
             source_row = lines[line];
             line += 1;
             silent_warnings[line] = skip_re.test(source_row);
-            at = source_row.search(/ \t/);
-            if (at >= 0) {
-                warn_at('mixed', line, at + 1);
-            }
             if (!option.white) {
+                at = source_row.search(/ \t/);
+
+                // Mixed tabs and spaces
+                if (at >= 0) {
+                    warn_at('mixed', line, at + 1);
+                }
                 at = source_row.indexOf("\r");
 
                 // Windows EOL
@@ -6587,7 +6589,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2012-12-14';
+    itself.edition = '2012-12-17';
 
     return itself;
 }());
