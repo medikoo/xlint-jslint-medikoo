@@ -1,5 +1,5 @@
 // jslint.js
-// 2012-09-18
+// 2012-09-19
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -952,7 +952,7 @@ var JSLINT = (function () {
 // comment todo
         tox = /^\W*to\s*do(?:\W|$)/i,
 // token
-        tx = /^\s*([(){}\[\]\?.,:;'"~#@`]|={1,3}|\/(\*(jslint|properties|property|members?|globals?)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[|=]?|>{1,3}=?|<(?:[\/=!]|\!(\[|--)?|<=?)?|\!={0,2}|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+(?:[xX][0-9a-fA-F]+|\.[0-9]*)?(?:[eE][+\-]?[0-9]+)?)/,
+        tx = /^\s*([(){}\[\]\?.,:;'"~#@`]|={1,3}|\/(\*(jslint|properties|property|members?|globals?)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|[\^%]=?|&[&=]?|\|[|=]?|>{1,3}=?|<(?:[\/=!]|\!(\[|--)?|<=?)?|\!(\!|==?)?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+(?:[xX][0-9a-fA-F]+|\.[0-9]*)?(?:[eE][+\-]?[0-9]+)?)/,
 // url badness
         ux = /&|\+|\u00AD|\.\.|\/\*|%[^;]|base64|url|expression|data|mailto|script/i,
 
@@ -2671,44 +2671,40 @@ klass:              do {
     function prefix(s, f) {
         var x = symbol(s, 150);
         reserve_name(x);
-        x.nud = typeof f === 'function'
-            ? f
-            : function () {
+        x.nud = function () {
+            var that = this;
+            that.arity = 'prefix';
+            if (typeof f === 'function') {
+                that = f(that);
+                if (that.arity !== 'prefix') {
+                    return that;
+                }
+            } else {
                 if (s === 'typeof') {
                     one_space();
                 } else {
                     no_space_only();
                 }
-                this.first = expression(150);
-                this.arity = 'prefix';
-                switch (this.id) {
-                case '++':
-                case '--':
-                    if (!option.plusplus) {
-                        warn('unexpected_a', this);
-                    } else if ((!this.first.identifier || this.first.reserved) &&
-                            this.first.id !== '.' && this.first.id !== '[') {
-                        warn('bad_operand', this);
-                    }
-                    break;
-                case '+':
-                case '-':
-                    if (this.first.arity === 'prefix') {
-                        switch (this.first.id) {
-                        case '[':
-                        case '{':
-                        case '!':
-                        case '~':
-                        case '+':
-                        case '-':
-                            warn('unexpected_a', this.first);
-                            break;
-                        }
-                    }
-                    break;
+                that.first = expression(150);
+            }
+            switch (that.id) {
+            case '++':
+            case '--':
+                if (!option.plusplus) {
+                    warn('unexpected_a', that);
+                } else if ((!that.first.identifier || that.first.reserved) &&
+                        that.first.id !== '.' && that.first.id !== '[') {
+                    warn('bad_operand', that);
                 }
-                return this;
-            };
+                break;
+            default:
+                if (that.first.arity === 'prefix' ||
+                        that.first.arity === 'function') {
+                    warn('unexpected_a', that);
+                }
+            }
+            return that;
+        };
         return x;
     }
 
@@ -3391,15 +3387,14 @@ klass:              do {
         return that;
     });
 
-    prefix('void', function () {
-        this.first = expression(0);
-        this.arity = 'prefix';
-        if (option.es5) {
-            warn('expected_a_b', this, 'undefined', 'void');
-        } else if (this.first.number !== 0) {
-            warn('expected_a_b', this.first, '0', artifact(this.first));
+    prefix('void', function (that) {
+        that.first = expression(0);
+        if (option.es5 || strict_mode) {
+            warn('expected_a_b', that, 'undefined', 'void');
+        } else if (that.first.number !== 0) {
+            warn('expected_a_b', that.first, '0', artifact(that.first));
         }
-        return this;
+        return that;
     });
 
     bitwise('|', 70);
@@ -3464,7 +3459,7 @@ klass:              do {
         that.second = right;
         return that;
     });
-    prefix('+', 'num');
+    prefix('+');
     prefix('+++', function () {
         warn('confusing_a', token);
         this.first = expression(150);
@@ -3564,40 +3559,41 @@ klass:              do {
 
     suffix('--');
     prefix('--');
-    prefix('delete', function () {
+    prefix('delete', function (that) {
         one_space();
         var p = expression(0);
         if (!p || (p.id !== '.' && p.id !== '[')) {
             warn('deleted');
         }
-        this.first = p;
-        return this;
+        that.first = p;
+        return that;
     });
 
 
-    prefix('~', function () {
+    prefix('~', function (that) {
         no_space_only();
         if (!option.bitwise) {
-            warn('unexpected_a', this);
+            warn('unexpected_a', that);
         }
-        expression(150);
-        return this;
+        this.first = expression(150);
+        return that;
     });
-    prefix('!', function () {
+    function banger(that) {
         no_space_only();
-        this.first = expected_condition(expression(150));
-        this.arity = 'prefix';
-        if ((bang[this.first.id] === true || this.first.assign) &&
-            !this.first.paren) {
-            warn('confusing_a', this);
+        that.first = expected_condition(expression(150));
+        if ((bang[that.first.id] === that || that.first.assign) &&
+            !that.first.paren) {
+            warn('confusing_a', that);
         }
-        return this;
-    });
-    prefix('typeof', null);
-    prefix('new', function () {
+        return that;
+    }
+    prefix('!', banger);
+    prefix('!!', banger);
+    prefix('typeof');
+    prefix('new', function (that) {
         one_space();
         var c = expression(160), n, p, v;
-        this.first = c;
+        that.first = c;
         if (c.id !== 'function') {
             if (c.identifier) {
                 switch (c.string) {
@@ -3657,12 +3653,12 @@ klass:              do {
                 }
             }
         } else {
-            warn('weird_new', this);
+            warn('weird_new', that);
         }
         if (next_token.id !== '(') {
             warn('missing_a', next_token, '()');
         }
-        return this;
+        return that;
     });
 
     infix('(', 160, function (left, that) {
@@ -3750,7 +3746,7 @@ klass:              do {
         return that;
     }, true);
 
-    prefix('(', function () {
+    prefix('(', function (that) {
         step_in('expression');
         no_space();
         edge();
@@ -3760,7 +3756,7 @@ klass:              do {
         var value = expression(0);
         value.paren = true;
         no_space();
-        step_out(')', this);
+        step_out(')', that);
         if (value.id === 'function') {
             switch (next_token.id) {
             case '(':
@@ -3771,7 +3767,7 @@ klass:              do {
                 warn('unexpected_a');
                 break;
             default:
-                warn('bad_wrap', this);
+                warn('bad_wrap', that);
             }
         }
         return value;
@@ -3884,9 +3880,8 @@ klass:              do {
         return that;
     }, true);
 
-    prefix('[', function () {
-        this.arity = 'prefix';
-        this.first = [];
+    prefix('[', function (that) {
+        that.first = [];
         step_in('array');
         while (next_token.id !== '(end)') {
             while (next_token.id === ',') {
@@ -3898,7 +3893,7 @@ klass:              do {
             }
             indent.wrap = false;
             edge();
-            this.first.push(expression(10));
+            that.first.push(expression(10));
             if (next_token.id === ',') {
                 comma();
                 if (next_token.id === ']' && !option.es5) {
@@ -3909,8 +3904,8 @@ klass:              do {
                 break;
             }
         }
-        step_out(']', this);
-        return this;
+        step_out(']', that);
+        return that;
     }, 170);
 
 
@@ -4017,10 +4012,9 @@ klass:              do {
     assignop('>>>=', '>>>');
 
 
-    prefix('{', function () {
+    prefix('{', function (that) {
         var get, i, j, name, p, set, seen = {}, chr;
-        this.arity = 'prefix';
-        this.first = [];
+        that.first = [];
 
         // Expect whitespace char after openning brace
         if (!option.white) {
@@ -4098,7 +4092,7 @@ klass:              do {
                 spaces();
                 name.first = expression(10);
             }
-            this.first.push(name);
+            that.first.push(name);
             if (seen[i] === true) {
                 warn('duplicate_a', next_token, i);
             }
@@ -4128,8 +4122,8 @@ klass:              do {
                 warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
             }
         }
-        step_out('}', this);
-        return this;
+        step_out('}', that);
+        return that;
     });
 
     stmt('{', function () {
@@ -4228,7 +4222,7 @@ klass:              do {
         return this;
     });
 
-    prefix('function', function () {
+    prefix('function', function (that) {
         if (!option.anon) {
             one_space();
         }
@@ -4238,7 +4232,7 @@ klass:              do {
         } else {
             id = '';
         }
-        do_function(this, id);
+        do_function(that, id);
         if (funct['(loopage)']) {
             warn('function_loop');
         }
@@ -4259,8 +4253,8 @@ klass:              do {
         default:
             stop('unexpected_a');
         }
-        this.arity = 'function';
-        return this;
+        that.arity = 'function';
+        return that;
     });
 
     stmt('if', function () {
@@ -6590,7 +6584,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2012-09-18';
+    itself.edition = '2012-09-19';
 
     return itself;
 }());
