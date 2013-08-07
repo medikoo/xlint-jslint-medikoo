@@ -3110,7 +3110,7 @@ klass:              do {
         } else if (!ordinary) {
             stop('expected_a_b', next_token, '{', artifact());
         } else {
-            warn('expected_a_b', next_token, '{', artifact());
+            // warn('expected_a_b', next_token, '{', artifact());
             array = [statement()];
             array.disrupt = array[0].disrupt;
         }
