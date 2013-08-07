@@ -1439,7 +1439,7 @@ klass:              do {
                         token.warn('already_defined', name);
                     }
                 } else if (master.function !== global_funct) {
-                    if (kind === 'var') {
+                    if ((kind === 'var') && hasOwnProperty.call(scope, name)) {
                         token.warn('redefinition_a_b', name, master.line);
                     }
                 }
