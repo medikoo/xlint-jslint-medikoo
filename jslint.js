@@ -4065,6 +4065,16 @@ klass:              do {
                 warn('unexpected_a', token);
             }
         }
+
+        // Expect whitespace char before closing brace
+        if (!option.white && (next_token.from > 1)) {
+            chr = lines[next_token.line - 1].replace(/\t/g,
+                Array(option.indent).join(' ') + ' ')
+                .slice(next_token.from - 2, next_token.from - 1);
+            if (chr && !/\s/.test(chr) && (chr !== '{')) {
+                warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
+            }
+        }
         step_out('}', this);
         return this;
     });
