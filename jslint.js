@@ -555,7 +555,7 @@ var JSLINT = (function () {
         lookahead,
         node = array_to_object([
             'Buffer', 'clearImmediate', 'clearInterval', 'clearTimeout',
-            'console', 'exports', 'global', 'module', 'process', 'querystring',
+            'console', 'global', 'module', 'process', 'querystring',
             'require', 'setImmediate', 'setInterval', 'setTimeout',
             '__dirname', '__filename'
         ], false),
