@@ -1316,7 +1316,7 @@ var JSLINT = (function () {
             var id, the_token;
             if (type === '(string)' || type === '(range)') {
                 if (jx.test(value)) {
-                    warn_at('url', line, from);
+                    // warn_at('url', line, from);
                 }
             }
             the_token = Object.create(syntax[(
