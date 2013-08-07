@@ -2517,7 +2517,7 @@ klass:              do {
             array = [statement()];
             array.disrupt = array[0].disrupt;
         }
-        if (kind !== 'catch' && array.length === 0) {
+        if (kind !== 'function' && kind !== 'catch' && array.length === 0) {
             curly.warn('empty_block');
         }
         block_var.forEach(function (name) {
