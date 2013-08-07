@@ -3078,7 +3078,7 @@ klass:              do {
 // ordinary is false for function bodies and try blocks.
 // ordinary is true for if statements, while, etc.
 
-        var array,
+        var array, chr,
             curly = next_token,
             old_in_block = in_block,
             old_scope = scope,
@@ -3089,6 +3089,16 @@ klass:              do {
         spaces();
         if (next_token.id === '{') {
             advance('{');
+
+            // Expect whitespace char after openning brace
+            if (!option.white) {
+                chr = lines[token.line - 1].replace(/\t/g,
+                    Array(option.indent).join(' ') + ' ')
+                    .slice(token.from, token.from + 1);
+                if (chr && !/\s/.test(chr) && (chr !== '}')) {
+                    warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
+                }
+            }
             step_in();
             if (!ordinary && !use_strict() && !old_strict_mode &&
                     !option.sloppy && funct['(context)'] === global_funct) {
