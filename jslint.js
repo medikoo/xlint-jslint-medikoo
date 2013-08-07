@@ -3957,7 +3957,9 @@ klass:              do {
             }
             this.first = expression(0);
             if (this.first.assign) {
-                this.first.warn('unexpected_a');
+                if (lines[this.line - 1].slice(this.thru - 2)[0] !== '(') {
+                    this.first.warn('unexpected_a');
+                }
             }
         }
         return this;
