@@ -2961,7 +2961,7 @@ klass:              do {
 
     function statement() {
 
-        var label, old_scope = scope, the_statement;
+        var label, old_scope = scope, the_statement, parenRe = /^\s*\(.+\);$/;
 
 // We don't like the empty statement.
 
@@ -3025,7 +3025,11 @@ klass:              do {
                         the_statement.id !== 'delete' &&
                         the_statement.id !== '++' &&
                         the_statement.id !== '--') {
-                    warn('assignment_function_expression', token);
+                    if ((the_statement.id !== '&&' &&
+                        the_statement.id !== '||') ||
+                        !parenRe.test(lines[the_statement.line - 1])) {
+                        warn('assignment_function_expression', token);
+										}
                 }
                 semicolon();
             }
