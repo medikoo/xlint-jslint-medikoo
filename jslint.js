@@ -239,7 +239,7 @@
     conditional_assignment, confusing_a, confusing_regexp, constructor_name_a,
     continue, control_a, create, d, dangling_a, data, debug, deleted, devel,
     disrupt, duplicate_a, edge, edition, else, empty_block, empty_case,
-    empty_class, entityify, eqeq, error_report, errors, es5, eval, evidence, evil,
+    empty_class, entityify, eqeq, error_report, errors, es5, evidence, evil,
     exception, exec, expected_a, expected_a_at_b_c, expected_a_b,
     expected_a_b_from_c_d, expected_id_a, expected_identifier_a,
     expected_identifier_a_reserved, expected_number_a, expected_operator_a,
@@ -251,10 +251,10 @@
     identifier_function, immed, implied_evil, indent, indexOf, infix_in, init,
     insecure_a, isAlpha, isArray, isDigit, isNaN, join, jslint, json, keys,
     label, labeled, lbp, leading_decimal_a, led, left, length, level, line,
-    match, maxerr, maxlen, menu, message, missing_a, missing_a_after_b,
+    match, maxerr, maxlen, message, missing_a, missing_a_after_b,
     missing_property, missing_space_a_b, missing_use_strict, mixed, mode,
     move_invocation, move_var, n, name, name_function, nested_comment, newcap,
-    node, nomen, noscript, not, not_a_constructor, not_a_defined, not_a_function,
+    node, nomen, not, not_a_constructor, not_a_defined, not_a_function,
     not_a_label, not_a_scope, not_greater, nud, number, octal_a, open, outer,
     parameter_a_get_b, parameter_arguments_a, parameter_set_a, params, paren,
     passfail, plusplus, postscript, predef, properties, properties_report,
@@ -3059,7 +3059,7 @@ klass:              do {
         if (!option.bitwise) {
             warn('unexpected_a', that);
         }
-        this.first = expression(150);
+        that.first = expression(150);
         return that;
     });
     function banger(that) {
@@ -4325,20 +4325,9 @@ klass:              do {
                     if (next_token.id === ';' && !node_js) {
                         semicolon();
                     }
-                    adsafe_top = true;
                     tree = statements();
                     begin.first = tree;
                     itself.tree = begin;
-                    if (option.adsafe && (tree.length !== 1 ||
-                            aint(tree[0], 'id', '(') ||
-                            aint(tree[0].first, 'id', '.') ||
-                            aint(tree[0].first.first, 'string', 'ADSAFE') ||
-                            aint(tree[0].first.second, 'string', 'lib') ||
-                            tree[0].second.length !== 2 ||
-                            tree[0].second[0].id !== '(string)' ||
-                            aint(tree[0].second[1], 'id', 'function'))) {
-                        stop('adsafe_lib');
-                    }
                     if (tree.disrupt && !option.module) {
                         warn('weird_program', prev_token);
                     }
