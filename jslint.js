@@ -3965,9 +3965,19 @@ klass:              do {
 
 
     prefix('{', function () {
-        var get, i, j, name, p, set, seen = {};
+        var get, i, j, name, p, set, seen = {}, chr;
         this.arity = 'prefix';
         this.first = [];
+
+        // Expect whitespace char after openning brace
+        if (!option.white) {
+            chr = lines[token.line - 1].replace(/\t/g,
+                Array(option.indent).join(' ') + ' ')
+                .slice(token.from, token.from + 1);
+            if (chr && !/\s/.test(chr) && (chr !== '}')) {
+                warn('missing_space_a_b', next_token, artifact(token), artifact(next_token));
+            }
+        }
         step_in();
         while (next_token.id !== '}') {
             indent.wrap = false;
