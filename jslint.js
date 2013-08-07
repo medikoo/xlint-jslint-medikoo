@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-02-03
+// 2013-02-05
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2800,6 +2800,8 @@ klass:              do {
         case '(regexp)':
         case '(string)':
         case '{':
+        case '?':
+        case '~':
             warn(message || bundle.weird_condition, node);
             break;
         case '(':
@@ -6616,7 +6618,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-02-03';
+    itself.edition = '2013-02-05';
 
     return itself;
 }());
