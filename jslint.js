@@ -2486,7 +2486,7 @@ klass:              do {
             old_in_block = in_block,
             old_strict_mode = strict_mode;
 
-        in_block = kind !== 'function' && kind !== 'try' && kind !== 'catch';
+        in_block = kind !== 'function' && kind !== 'try' && kind !== 'catch' && kind !== 'module';
         block_var = [];
         if (curly.id === '{') {
             spaces();
@@ -2509,6 +2509,12 @@ klass:              do {
             array = statements();
             strict_mode = old_strict_mode;
             step_out('}', curly);
+        } else if (kind === 'module') {
+            if (!use_strict() && !old_strict_mode && !option.sloppy) {
+                next_token.warn('missing_use_strict');
+            }
+            array = statements();
+            strict_mode = old_strict_mode;
         } else if (in_block) {
             // curly.stop('expected_a_b', '{', artifact());
             array = [statement()];
@@ -2518,7 +2524,7 @@ klass:              do {
             array = [statement()];
             array.disrupt = array[0].disrupt;
         }
-        if (kind !== 'function' && kind !== 'catch' && array.length === 0) {
+        if (kind !== 'function' && kind !== 'catch' && kind !== 'module' && array.length === 0) {
             curly.warn('empty_block');
         }
         block_var.forEach(function (name) {
@@ -3237,6 +3243,39 @@ klass:              do {
         no_space();
         step_out(')', paren);
         return parameters;
+    }
+
+    function do_module() {
+        var old_funct = funct,
+            old_option = option,
+            old_scope = scope;
+        scope = Object.create(old_scope);
+        funct = {
+            closure: [],
+            global: [],
+            level: old_funct.level + 1,
+            line: next_token.line,
+            loopage: 0,
+            name: '\'\'',
+            outer: [],
+            scope: scope
+        };
+        funct.parameter = [];
+        option = Object.create(old_option);
+        functions.push(funct);
+        block('module');
+        Object.keys(scope).forEach(function (name) {
+            var master = scope[name];
+            if (!master.used && master.kind !== 'exception' &&
+                    (master.kind !== 'parameter' || !option.unparam)) {
+                master.warn('unused_a');
+            } else if (!master.init) {
+                master.warn('uninitialized_a');
+            }
+        });
+        funct = old_funct;
+        option = old_option;
+        scope = old_scope;
     }
 
     function do_function(func, name) {
@@ -4166,14 +4205,18 @@ klass:              do {
 // file may be depending on semicolon insertion on its last line.
 
                     step_in(1);
-                    if (next_token.id === ';' && !node_js && !options.module) {
-                        semicolon();
-                    }
-                    tree = statements();
-                    begin.first = tree;
-                    itself.tree = begin;
-                    if (tree.disrupt && !option.module) {
-                        prev_token.warn('weird_program');
+                    if (option.module || node_js) {
+                        do_module();
+                    } else {
+                        if (next_token.id === ';') {
+                            semicolon();
+                        }
+                        tree = statements();
+                        begin.first = tree;
+                        itself.tree = begin;
+                        if (tree.disrupt) {
+                            prev_token.warn('weird_program');
+                        }
                     }
                 }
             }
