@@ -4166,7 +4166,7 @@ klass:              do {
 // file may be depending on semicolon insertion on its last line.
 
                     step_in(1);
-                    if (next_token.id === ';' && !node_js) {
+                    if (next_token.id === ';' && !node_js && !options.module) {
                         semicolon();
                     }
                     tree = statements();
