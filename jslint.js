@@ -2576,7 +2576,7 @@ klass:              do {
 // in the global scope, then we have an undefined variable error.
 
                 } else {
-                    if (!lines[token.line - 1].slice(0, token.from - 2).match(/typeof\s+$/)) {
+                    if (!lines[token.line - 1].replace(/\t/g, tab).slice(0, token.from - 2).match(/typeof$/)) {
                       token.warn('used_before_a');
                     }
                 }
