@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "description": "JSLint mod configured as handler for XLint",
   "dependencies": {
-    "xlint-jslint": "0.1.x"
-  },
-  "peerDependencies": {
-    "xlint": "0.1.x"
+    "xlint-jslint": "git://github.com/medikoo/xlint-jslint"
   },
   "devDependencies": {
     "tad": "~0.1.16"
