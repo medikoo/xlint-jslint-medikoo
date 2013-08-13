@@ -777,6 +777,10 @@ var JSLINT = (function () {
                         (line.indexOf(';') === (line.length - 1))) {
                     return;
                 }
+                if ((line.indexOf('for ') === 0) && (line[line.length - 1] === ';')) {
+                    index = line.indexOf(';', line.indexOf(';', line.indexOf(';') + 1) + 1);
+								    if (index === (line.length - 1)) return;
+							}
             }
             next_token.warn('expected_a_at_b_c', '', at, next_token.from);
         }
