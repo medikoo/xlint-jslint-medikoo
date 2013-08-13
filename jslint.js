@@ -757,9 +757,6 @@ var JSLINT = (function () {
     }
 
     var medExceptions = ['else', 'if', 'while'];
-    medExceptions.contains = function (token) {
-        return this.indexOf(token) !== -1;
-    };
     function expected_at(at) {
 			  var line, line2, index;
         if (!option.white && next_token.from !== at) {
