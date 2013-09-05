@@ -4227,7 +4227,7 @@ klass:              do {
         } catch (e) {
             if (e) {        // ~~
                 itself.errors.push({
-                    reason    : e.message,
+                    reason    : e.stack || e.message,
                     line      : e.line || next_token.line,
                     character : e.character || next_token.from
                 }, null);
