@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-08-13
+// 2013-08-26
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -3327,7 +3327,7 @@ klass:              do {
     }
 
     prefix('{', function (that) {
-        var get, i, j, name, p, set, seen = Object.create(null), chr;
+        var get, i, j, name, set, seen = Object.create(null), chr;
         that.first = [];
 
         // Expect whitespace char after openning brace
@@ -3565,6 +3565,7 @@ klass:              do {
         case ']':
         case '}':
         case ':':
+        case '(end)':
             break;
         case '.':
             if ((peek().string !== 'apply' && peek().string !== 'bind' && peek().string !== 'call') ||
@@ -4449,7 +4450,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-08-13';
+    itself.edition = '2013-08-26';
 
     return itself;
 }());
