@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-08-26
+// 2013-09-20
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -4450,7 +4450,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-08-26';
+    itself.edition = '2013-09-20';
 
     return itself;
 }());
