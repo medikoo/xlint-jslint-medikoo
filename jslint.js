@@ -2507,7 +2507,7 @@ klass:              do {
             step_out('}', curly);
         } else if (kind === 'module') {
             if (!use_strict() && !old_strict_mode && !option.sloppy) {
-                next_token.warn('missing_use_strict');
+                prev_token.warn('missing_use_strict');
             }
             array = statements();
             strict_mode = old_strict_mode;
