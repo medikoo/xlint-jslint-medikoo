@@ -767,7 +767,7 @@ var JSLINT = (function () {
                     }
 								}
             } else {
-                line = lines[next_token.line - 1].trim();
+                line = (next_token.line <= lines.length) ? lines[next_token.line - 1].trim() : '';
                 if ((index = line.lastIndexOf('//')) !== -1) line = line.slice(0, index).trim();
                 if (medExceptions.some(function (exc) { return line.indexOf(exc) === 0; }) &&
                         (line[line.length - 1] === ';') &&
