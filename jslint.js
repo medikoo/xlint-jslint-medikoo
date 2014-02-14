@@ -1,5 +1,5 @@
 // jslint.js
-// 2013-11-21
+// 2013-11-23
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -4413,14 +4413,16 @@ klass:              do {
             key = keys[i];
             if (property[key] > 0) {
                 if (not_first) {
-                    mem += ', ';
+                    mem += ',';
                 }
                 name = ix.test(key)
                     ? key
                     : '\'' + key.replace(nx, sanitize) + '\'';
                 if (mem.length + name.length >= 80) {
                     output.push(mem);
-                    mem = '    ';
+                    mem = '   ';
+                } else {
+                    mem += ' ';
                 }
                 mem += name;
                 not_first = true;
@@ -4462,7 +4464,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2013-11-21';
+    itself.edition = '2013-11-23';
 
     return itself;
 }());
