@@ -2530,7 +2530,8 @@ klass:              do {
         } else if (in_block) {
             // curly.stop('expected_a_b', '{', artifact());
             array = [statement()];
-            array.disrupt = array[0].disrupt;
+            if (!array[0]) array = [];
+            else array.disrupt = array[0].disrupt;
         } else {
             curly.warn('expected_a_b', '{', artifact());
             array = [statement()];
