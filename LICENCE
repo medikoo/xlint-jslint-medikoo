@@ -21,6 +21,6 @@ THE SOFTWARE.
 ===
 
 This license applies to everything except JSLint.
-JSLint, located at jslint.js, is copyright Douglas Crockford.
+JSLint, located at jslint folder, is copyright Douglas Crockford.
 JSLint is provided under a customized MIT license, which is
-included in the header of lib/jslint.js.
+included in the header of jslint/jslint.js.
