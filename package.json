@@ -1,5 +1,5 @@
 {
-  "name": "xlint-jslint-medikoo-mod",
+  "name": "xlint-jslint-medikoo",
   "version": "0.1.0",
   "description": "JSLint mod configured as handler for XLint",
   "dependencies": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/medikoo/xlint-jslint-medikoo-mod.git"
+    "url": "git://github.com/medikoo/xlint-jslint-medikoo.git"
   },
   "keywords": [
     "jslint",
@@ -27,6 +27,6 @@
   "author": "Mariusz Nowak",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/medikoo/xlint-jslint-medikoo-mod/issues"
+    "url": "https://github.com/medikoo/xlint-jslint-medikoo/issues"
   }
 }
