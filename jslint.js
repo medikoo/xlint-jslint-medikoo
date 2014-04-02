@@ -3006,7 +3006,9 @@ klass:              do {
                     if (left.string === 'Math') {
                         left.warn('not_a_function');
                     } else if ((left.string === 'Object') || (left.string === 'RegExp')) {
-                        // token.warn('use_object');
+                      // token.warn('use_object');
+                    } else if (left.string === 'Symbol') {
+                      // ignore
                     } else if (left.string === 'Array' || !option.newcap) {
                         left.warn('missing_a', 'new');
                     }
