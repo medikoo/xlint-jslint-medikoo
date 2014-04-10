@@ -1889,8 +1889,12 @@ klass:              do {
                 return a.id === b.id && are_similar(a.first, b.first) &&
                     a.id !== '{' && a.id !== '[';
             case 'infix':
-                return are_similar(a.left, b.left) &&
-                    are_similar(a.right, b.right);
+                if (a.string === 'in') {
+                    return are_similar(a.left, b.left) &&
+                      are_similar(a.right, b.right);
+                }
+                return are_similar(a.first, b.first) &&
+                  are_similar(a.second, b.second);
             case 'ternary':
                 return are_similar(a.first, b.first) &&
                     are_similar(a.second, b.second) &&
