@@ -1891,10 +1891,10 @@ klass:              do {
             case 'infix':
                 if (a.string === 'in') {
                     return are_similar(a.left, b.left) &&
-                      are_similar(a.right, b.right);
+                        are_similar(a.right, b.right);
                 }
                 return are_similar(a.first, b.first) &&
-                  are_similar(a.second, b.second);
+                    are_similar(a.second, b.second);
             case 'ternary':
                 return are_similar(a.first, b.first) &&
                     are_similar(a.second, b.second) &&
