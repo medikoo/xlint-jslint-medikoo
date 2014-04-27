@@ -5,8 +5,8 @@
 var resolve = require('path').resolve
   , deferred = require('deferred')
   , exec = deferred.promisify(require('child_process').exec)
-  , writeFile = require('fs2/lib/write-file')
-  , unlink = require('fs2/lib/unlink')
+  , writeFile = require('fs2/write-file')
+  , unlink = require('fs2/unlink')
 
   , repoPath = String(process.argv[2])
   , commit = String(process.argv[3])
