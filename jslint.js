@@ -788,7 +788,7 @@ var JSLINT = (function () {
 
     lex = (function lex() {
         var character, c, from, length, line, pos, source_row, skip_re;
-        skip_re = /\/\/jslint: skip$/;
+        skip_re = /\/\/jslint: ignore$/;
 
 // Private lex methods
 
