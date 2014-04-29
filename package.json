@@ -17,10 +17,10 @@
     "url": "git://github.com/medikoo/xlint-jslint-medikoo.git"
   },
   "dependencies": {
-    "xlint-jslint": "git://github.com/medikoo/xlint-jslint"
+    "xlint-jslint": "0.1.x"
   },
   "devDependencies": {
-    "tad": "~0.1.16"
+    "tad": "0.2.x"
   },
   "scripts": {
     "test": "node ./node_modules/tad/bin/tad"
