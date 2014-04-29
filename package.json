@@ -2,19 +2,7 @@
   "name": "xlint-jslint-medikoo",
   "version": "0.1.0",
   "description": "JSLint mod configured as handler for XLint",
-  "dependencies": {
-    "xlint-jslint": "git://github.com/medikoo/xlint-jslint"
-  },
-  "devDependencies": {
-    "tad": "~0.1.16"
-  },
-  "scripts": {
-    "test": "node ./node_modules/tad/bin/tad"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/medikoo/xlint-jslint-medikoo.git"
-  },
+  "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
     "jslint",
     "lint",
@@ -24,9 +12,18 @@
     "console",
     "medikoo"
   ],
-  "author": "Mariusz Nowak",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/medikoo/xlint-jslint-medikoo/issues"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/medikoo/xlint-jslint-medikoo.git"
+  },
+  "dependencies": {
+    "xlint-jslint": "git://github.com/medikoo/xlint-jslint"
+  },
+  "devDependencies": {
+    "tad": "~0.1.16"
+  },
+  "scripts": {
+    "test": "node ./node_modules/tad/bin/tad"
+  },
+  "license": "MIT"
 }
