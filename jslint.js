@@ -1,5 +1,5 @@
 // jslint.js
-// 2014-04-08
+// 2014-04-21
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -4234,7 +4234,8 @@ klass:              do {
                         do_module();
                     } else {
                         if (next_token.id === ';') {
-                            semicolon();
+                            next_token.edge = true;
+                            advance(';');
                         }
                         tree = statements();
                         begin.first = tree;
