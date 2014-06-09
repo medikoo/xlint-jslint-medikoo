@@ -2093,7 +2093,7 @@ klass:              do {
             default:
                 if (that.first.arity === 'prefix' ||
                         that.first.arity === 'function') {
-                    if (that.first.arity !== 'prefix' || that.string !== '!') {
+                    if (that.first.arity !== 'prefix' || ((that.string !== '!') && (that.string !== '~'))) {
                         that.warn('unexpected_a');
                     }
                 }
