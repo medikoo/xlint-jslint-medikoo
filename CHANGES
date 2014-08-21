@@ -1,3 +1,6 @@
+v0.1.2  --  2014.08.21
+* Force all ident names to be input literally as object properties
+
 v0.1.1  --  2014.08.21
 * Update JSLint from upstream
 * Accept `~~` as toInt32 method
