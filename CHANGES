@@ -1,2 +1,6 @@
+v0.1.1  --  2014.08.21
+* Update JSLint from upstream
+* Accept `~~` as toInt32 method
+
 v0.1.0  --  2014.04.29
 Initial
