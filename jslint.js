@@ -1,5 +1,5 @@
 // jslint.js
-// 2014-07-07
+// 2014-07-08
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -2281,6 +2281,8 @@ klass:              do {
                 if (s === '=') {
                     master.init = true;
                 }
+            } else if (that.reserved) {
+                that.warn('expected_identifier_a_reserved');
             }
         } else if (that.id === '.' || that.id === '[') {
             if (!that.first || ((that.first.string === 'arguments') &&
@@ -4483,7 +4485,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2014-07-07';
+    itself.edition = '2014-07-08';
 
     return itself;
 }());
