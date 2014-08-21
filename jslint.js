@@ -3164,10 +3164,7 @@ klass:              do {
                     (e.string === 'eval' || e.string === 'execScript')) {
                 e.warn('evil');
             } else if (!option.sub && ix.test(e.string)) {
-                s = syntax[e.string];
-                if (!s || !s.reserved) {
-                    e.warn('subscript');
-                }
+                e.warn('subscript');
             }
             tally_property(e.string);
             break;
