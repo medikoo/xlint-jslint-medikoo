@@ -447,6 +447,7 @@ var JSLINT = (function () {
             strange_loop: "Strange loop.",
             strict: "Strict violation.",
             subscript: "['{a}'] is better written in dot notation.",
+            subscript2: "'{a}' is better written literally.",
             sync_a: "Unexpected sync method: '{a}'.",
             tag_a_in_b: "A '<{a}>' must be within '<{b}>'.",
             todo_comment: "Unexpected TODO comment.",
@@ -3213,6 +3214,9 @@ klass:              do {
         if (!id) {
             if (next_token.id === '(string)') {
                 id = next_token.string;
+                if (!option.sub && ix.test(id)) {
+                  next_token.warn('subscript2');
+                }
                 advance();
             } else if (next_token.id === '(number)') {
                 id = next_token.number.toString();
