@@ -1,5 +1,5 @@
 // jslint.js
-// 2014-07-05
+// 2014-07-07
 
 // Copyright (c) 2002 Douglas Crockford  (www.JSLint.com)
 
@@ -3170,7 +3170,7 @@ klass:              do {
             tally_property(e.string);
             break;
         }
-        if (left && (left.id === '{' || left.id === '[')) {
+        if (left && (left.id === '{' || (left.id === '[' && left.arity === 'prefix'))) {
             that.warn('unexpected_a');
         }
         step_out(']', that);
@@ -4480,7 +4480,7 @@ klass:              do {
 
     itself.jslint = itself;
 
-    itself.edition = '2014-07-05';
+    itself.edition = '2014-07-07';
 
     return itself;
 }());
