@@ -827,7 +827,7 @@ var JSLINT = (function () {
 
                 // TAB after text content (we only allow TABS at begin of line)
                 at = source_row.search(/[^\t]\t/);
-                at2 = source_row.indexOf('//');
+                at2 = source_row.indexOf('//'); // ignore in case of commented code
                 if ((at >= 0) && ((at2 < 0) || at2 > at)) {
                     warn('unexpected_a', line, at + 1, '(tab)');
                 }
