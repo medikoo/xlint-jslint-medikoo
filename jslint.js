@@ -838,7 +838,7 @@ var JSLINT = (function () {
                 }
 
                 // Indent should be with TABS or spaces (according to setting)
-                at = source_row.replace(/  (,|\/\/)/g, '$1')
+                at = source_row.replace(/  (,|\/\/)/g, '$1') // ignore eventual comma first
                     .search(option.tabs ? /^ / : /^\t/);
                 if (at === 0) {
                     warn('unexpected_a', line, 1,
