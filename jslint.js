@@ -852,7 +852,7 @@ var JSLINT = (function () {
                 }
 
                 // Spaces should not appear after TABS
-                at = source_row.search('\t +([^, \n]|$)');
+                at = source_row.search('\t +([^, *\n]|$)');
                 if (at >= 0) {
                     warn('unexpected_a', line, source_row.indexOf(' ', at) + 1, '(space)');
                 }
