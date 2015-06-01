@@ -1,6 +1,6 @@
 {
   "name": "xlint-jslint-medikoo",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "JSLint mod configured as handler for XLint",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
@@ -17,10 +17,10 @@
     "url": "git://github.com/medikoo/xlint-jslint-medikoo.git"
   },
   "dependencies": {
-    "xlint-jslint": "0.1.x"
+    "xlint-jslint": "0.1"
   },
   "devDependencies": {
-    "tad": "0.2.x"
+    "tad": "~0.2.2"
   },
   "scripts": {
     "test": "node ./node_modules/tad/bin/tad"
