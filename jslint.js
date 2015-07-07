@@ -586,11 +586,11 @@ var JSLINT = (function () {
         standard = array_to_object([
             'Array', 'Boolean', 'Date', 'decodeURI', 'decodeURIComponent',
             'encodeURI', 'encodeURIComponent', 'Error', 'eval', 'EvalError',
-            'Function', 'isFinite', 'isNaN', 'JSON', 'Map', 'Math', 'Number',
-            'Object', 'parseInt', 'parseFloat', 'Promise', 'Proxy',
-            'RangeError', 'ReferenceError', 'Reflect', 'RegExp', 'Set',
-            'String', 'Symbol', 'SyntaxError', 'System', 'TypeError',
-            'URIError', 'WeakMap', 'WeakSet'
+            'Function', 'isFinite', 'isNaN', 'JSON', 'Math', 'Number',
+            'Object', 'parseInt', 'parseFloat',
+            'RangeError', 'ReferenceError', 'RegExp',
+            'String', 'SyntaxError', 'TypeError',
+            'URIError'
         ], false),
 
         strict_mode,
